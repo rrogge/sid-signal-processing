@@ -5,11 +5,15 @@ library(tidyr)
 
 source("Code/parse.sid.header.R")
 
-home.dir <- Sys.getenv("SID_STATISTICS_HOME", ".")
-setwd(home.dir)
+# Set working directory.
+sid.home.dir <- Sys.getenv("SID_HOME", ".")
+setwd(sid.home.dir)
 
 # Set flag to TRUE when to plot analytical data.
 plot.analytical.data = FALSE
+
+# Set flag to TRUE when to process only one raw data file.
+process.one.raw.data.file.only = TRUE
 
 # Directories the analytical, baseline, and raw data files are in.
 analytical.data.dir <- "Analytical Data/"
@@ -118,5 +122,6 @@ for (file.name in files) {
   # Print feedback.
   print(sprintf("%s processed", file.name))
   
-  break
+  # Check for processing only one raw data file.
+  if (process.one.raw.data.file.only) break
 }

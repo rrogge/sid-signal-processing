@@ -13,7 +13,7 @@ setwd(sid.home.dir)
 plot.analytical.data.flag = TRUE
 
 # Set flag to TRUE when to process only one raw data file.
-process.one.raw.data.file.only.flag = TRUE
+process.one.raw.data.file.only.flag = FALSE
 
 # Directories the analytical, baseline, and raw data files are in.
 analytical.data.dir <- "Analytical Data/"

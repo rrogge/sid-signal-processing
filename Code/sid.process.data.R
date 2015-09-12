@@ -18,13 +18,13 @@ process.one.raw.data.file.only = TRUE
 # Directories the analytical, baseline, and raw data files are in.
 analytical.data.dir <- "Analytical Data/"
 baseline.data.dir <- "Baseline Data/"
+output.data.dir <- "Output Data/"
 raw.data.dir <- "Raw Data/"
 
-# Create analytical data directory.
-if (!dir.exists(analytical.data.dir)) dir.create(analytical.data.dir)
-
-# Create baseline data directory.
-if (!dir.exists(baseline.data.dir)) dir.create(baseline.data.dir)
+# Create data directories.
+for (d in c(analytical.data.dir, baseline.data.dir, output.data.dir)) {
+  if (!dir.exists(d)) dir.create(d)
+}
 
 # List of analytical data files.
 analytical.data.files <- list.files(analytical.data.dir, '.*\\.csv')
@@ -48,6 +48,9 @@ for (file.name in files) {
     
   # Compose baseline data file name.
   baseline.data.file.name <- paste(baseline.data.dir, file.name, sep="/")
+
+  # Compose plot file name.
+  plot.file.name <- paste(output.data.dir, sub("\\.csv", "\\.png", file.name), sep="/")
   
   # Parse raw data fiile header.
   header <- parse.sid.header(input.file.name)
@@ -98,7 +101,12 @@ for (file.name in files) {
       theme(axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
       coord_cartesian(xlim=c(t0, t1))
     
-    # Plot.
+    # Write plot to file.
+    png(plot.file.name, 2048, 1536)
+    print(p)
+    dev.off()
+    
+    # Plot to display.
     print(p)
   }
   

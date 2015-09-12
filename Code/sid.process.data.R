@@ -10,10 +10,10 @@ sid.home.dir <- Sys.getenv("SID_HOME", ".")
 setwd(sid.home.dir)
 
 # Set flag to TRUE when to plot analytical data.
-plot.analytical.data = FALSE
+plot.analytical.data.flag = TRUE
 
 # Set flag to TRUE when to process only one raw data file.
-process.one.raw.data.file.only = TRUE
+process.one.raw.data.file.only.flag = TRUE
 
 # Directories the analytical, baseline, and raw data files are in.
 analytical.data.dir <- "Analytical Data/"
@@ -85,7 +85,7 @@ for (file.name in files) {
   write.csv(analytical.data, analytical.data.file.name, row.names=FALSE)
 
   # Plot analytical data.
-  if (plot.analytical.data) {
+  if (plot.analytical.data.flag) {
     
     # Start and end time of plot.
     t0 <- as.POSIXct(round(head(analytical.data$time,1),"hour"))
@@ -131,5 +131,5 @@ for (file.name in files) {
   print(sprintf("%s processed", file.name))
   
   # Check for processing only one raw data file.
-  if (process.one.raw.data.file.only) break
+  if (process.one.raw.data.file.only.flag) break
 }

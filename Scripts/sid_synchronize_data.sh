@@ -1,16 +1,16 @@
 #!/bin/bash
 
-if [ -z "$SID_HOME" ];
+if [ -z "$SID_HOME" ]; then
   SID_HOME="$HOME/Workspaces/SID Processing"
 fi
-cd $SID_HOME
+cd "$SID_HOME"
 
 function usage()
 {
-    echo "Usage: $1 -h HOST -u USER"
+    echo "Usage: $1 -s SITE -h HOST -u USER"
 }
 
-args=`getopt h:u: $*`
+args=`getopt h:s:u: $*`
 if [ $? != 0 ]; then
     usage $0
     exit 1
@@ -22,6 +22,9 @@ for i; do
         -h)
             host=$2
             shift; shift;;
+        -s)
+            site=$2
+            shift; shift;;
         -u)
             user=$2
             shift; shift;;
@@ -29,12 +32,12 @@ for i; do
            shift; break;;
     esac
 done
-if [ "$host" == "" -o "$user" == "" ]; then
+if [ -z "$host" -o -z "$site" -o -z "$user" ]; then
     usage $0
     exit 1
 fi
 
-rsync -av $user@$host:supersid/data/*.csv "Raw Data/"
+rsync -av $user@$host:supersid/data/$site*.csv "Raw Data/"
 if [ "$?" != "0" ]; then
 	echo Error synchronizing remote data.
 	exit 1

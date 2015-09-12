@@ -113,10 +113,10 @@ for (file.name in files) {
   # Baseline data.
   baseline.data <- analytical.data %>%
     
-    # Filter analytical data points from 9:00 to 18:00 ever 30 minutes.
+    # Filter analytical data points from 6:00 to 18:00 ever 30 minutes.
     mutate(hour=as.POSIXlt(time)[["hour"]]) %>%
     mutate(minute=as.POSIXlt(time)[["min"]]) %>%
-    filter(hour %in% seq(9,18) & (minute %in% c(0,30))) %>%
+    filter(hour %in% seq(6,18) & (minute %in% c(0,30))) %>%
     group_by(station, hour, minute) %>%
     summarize(time=mean(time), signal=mean(signal), weight=1) %>%
     

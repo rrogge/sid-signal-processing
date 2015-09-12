@@ -7,7 +7,7 @@
 To process SID data you want to download your data from your data host to the local raw data directory.
 
     $ cd <Your SID Workspace>
-    $ Scripts/sid_synchronize.sh -h sid -u pi
+    $ Scripts/sid_synchronize.sh -s <SITE> -h <HOST> -u <USER>
  
 Create anaytical and baseline data for all raw data files not yet processed.
 
@@ -21,15 +21,16 @@ Carefully inspection of SID plots gives a list of SID signals. Once a month I cr
 
 ## Directory Structure
 
-- **Analytical Data** Directory for analytical data files process from raw data, one file per day. File names are of format "STATION_YEAR-MONTH-DAY.csv". Columns are
+- **Analytical Data** Directory for analytical data files process from raw data, one file per day. File names are of format "SITE_YEAR-MONTH-DAY.csv". Columns are
     + **time** Time of measurement (YYYY-MM-DD hh:mm:ss)
     + **station** Letter code of the VLF transmitter.
     + **signal** Signal strength.
-- **Baseline Data** Directory for baseline data files process from raw data, one file per day. File names are of format "STATION_YEAR-MONTH-DAY.csv". Columns are
+- **Baseline Data** Directory for baseline data files process from raw data, one file per day. File names are of format "SITE_YEAR-MONTH-DAY.csv". Columns are
     + **time** Time of measurement (YYYY-MM-DD hh:mm:ss)
     + **station** Letter code of the VLF transmitter.
     + **signal** Signal strength.
     + **weight** 1
 - **Code** R code.
-- **Raw Data**  Directory for raw data files, one file per day. File names are of format "STATION_YEAR-MONTH-DAY.csv". Columns are signal strengths of VLF transmitter as defined in header rows.
+- **Output Data** Directory of plot files. File names are of format "SITE_YEAR-MONTH-DAY.png".
+- **Raw Data**  Directory for raw data files, one file per day. File names are of format "SITE_YEAR-MONTH-DAY.csv". Columns are signal strengths of VLF transmitter as defined in header rows.
 - **Scripts** Directory for shell scripts.

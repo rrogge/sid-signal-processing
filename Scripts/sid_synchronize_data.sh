@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$SID_HOME" ];
-  SID_HOME="$HOME/Workspaces/SID Statistics"
+  SID_HOME="$HOME/Workspaces/SID Processing"
 fi
 cd $SID_HOME
 
@@ -34,12 +34,8 @@ if [ "$host" == "" -o "$user" == "" ]; then
     exit 1
 fi
 
-rsync -av $user@$host:supersid/data/LS* "Raw Data/"
+rsync -av $user@$host:supersid/data/*.csv "Raw Data/"
 if [ "$?" != "0" ]; then
-	echo Error getting remote raw data.
+	echo Error synchronizing remote data.
 	exit 1
 fi
-
-git add "Raw Data/"
-git commit -m 'Synchronized data.'
-git push

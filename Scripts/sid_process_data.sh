@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "SID_HOME" ];
-  SID_HOME="$HOME/Workspaces/SID Statistics"
+  SID_HOME="$HOME/Workspaces/SID Processing"
 fi
 cd $SID_HOME
 

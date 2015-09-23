@@ -5,12 +5,15 @@ if [ -z "$SID_HOME" ]; then
 fi
 cd "$SID_HOME"
 
+RAW_DATA_DIR="$SID_HOME/Raw Data/"
+REMOTE_DATA_DIR="supersid/data/"
+
 function usage()
 {
-    echo "Usage: $1 -s SITE -h HOST -u USER"
+    echo "Usage: $1 -s SITE -h HOST -u USER [-r RAW-DATA-DIR] [-R REMOTE-DATA-DIR]"
 }
 
-args=`getopt h:s:u: $*`
+args=`getopt h:r:s:u:R: $*`
 if [ $? != 0 ]; then
     usage $0
     exit 1
@@ -22,11 +25,17 @@ for i; do
         -h)
             host=$2
             shift; shift;;
+        -r)
+            RAW_DATA_DIR=$2
+            shift; shift;;
         -s)
             site=$2
             shift; shift;;
         -u)
             user=$2
+            shift; shift;;
+        -R)
+            REMOTE_DATA_DIR=$2
             shift; shift;;
        --)
            shift; break;;
@@ -37,7 +46,8 @@ if [ -z "$host" -o -z "$site" -o -z "$user" ]; then
     exit 1
 fi
 
-rsync -av $user@$host:supersid/data/$site*.csv "Raw Data/"
+rsync -av $user@$host:"$REMOTE_DATA_DIR"/$site*.csv "$RAW_DATA_DIR"
+
 if [ "$?" != "0" ]; then
 	echo Error synchronizing remote data.
 	exit 1

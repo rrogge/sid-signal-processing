@@ -1,4 +1,6 @@
-# SID Processing
+# SID Signal Processing
+
+This projects provides some stuff I use in blog entry about [SID Signal Processing](http://astro-xo.de/?p=815). 
 
 ## SID Data Transfer and Processing
 

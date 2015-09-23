@@ -2,12 +2,13 @@ library(dplyr)
 library(ggplot2)
 library(scales)
 library(tidyr)
-
-source("Code/parse.sid.header.R")
+library(R.utils)
 
 # Set working directory.
 sid.home.dir <- Sys.getenv("SID_HOME", ".")
 setwd(sid.home.dir)
+
+source("Code/parse.sid.header.R")
 
 # Set flag to TRUE when to plot analytical data.
 plot.analytical.data.flag = TRUE
@@ -15,11 +16,18 @@ plot.analytical.data.flag = TRUE
 # Set flag to TRUE when to process only one raw data file.
 process.one.raw.data.file.only.flag = FALSE
 
-# Directories the analytical, baseline, and raw data files are in.
+# Default directories for analytical, baseline, and raw data files.
 analytical.data.dir <- "Analytical Data/"
 baseline.data.dir <- "Baseline Data/"
 output.data.dir <- "Output Data/"
 raw.data.dir <- "Raw Data/"
+
+# Parse command line arguemnts.
+args <- commandArgs(asValue=TRUE)
+if ("analytical.data.dir" %in% names(args)) analytical.data.dir <- args[["analytical.data.dir"]]
+if ("baseline.data.dir" %in% names(args)) baseline.data.dir <- args[["baseline.data.dir"]]
+if ("output.data.dir" %in% names(args)) output.data.dir <- args[["output.data.dir"]]
+if ("raw.data.dir" %in% names(args)) raw.data.dir <- args[["raw.data.dir"]]
 
 # Create data directories.
 for (d in c(analytical.data.dir, baseline.data.dir, output.data.dir)) {

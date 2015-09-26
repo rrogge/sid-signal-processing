@@ -5,8 +5,8 @@ library(tidyr)
 library(R.utils)
 
 # Set working directory.
-sid.signal.precessing.home <- Sys.getenv("SID_SIGNAL_PROCESSING_HOME", ".")
-setwd(sid.signal.precessing.home)
+sid.signal.processing.home <- Sys.getenv("SID_SIGNAL_PROCESSING_HOME", ".")
+setwd(sid.signal.processing.home)
 
 source("Code/parse.sid.header.R")
 

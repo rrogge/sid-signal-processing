@@ -45,7 +45,7 @@ if [ -z "$ANALYTICAL_DATA_DIR" -o -z "$BASELINE_DATA_DIR" -o -z "$OUTPUT_DATA_DI
   exit 1
 fi
 
-RScript Code/sid.process.data.R analytical.data.dir="$ANALYTICAL_DATA_DIR" baseline.data.dir="$BASELINE_DATA_DIR" output.data.dir="$OUTPUT_DATA_DIR" raw.data.dir="$RAW_DATA_DIR"
+RScript Code/sid.process.data.R analytical.data.dir="$ANALYTICAL_DATA_DIR" baseline.data.dir="$BASELINE_DATA_DIR" output.data.dir="$OUTPUT_DATA_DIR" raw.data.dir="$RAW_DATA_DIR" 2>&1 >/dev/null
 if [ "$?" != "0" ]; then
 	echo Error processing data.
 	exit 1

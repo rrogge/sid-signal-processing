@@ -6,12 +6,12 @@ This projects provides some stuff I use in blog entry about [SID Signal Processi
 
 ![](Images/SID Workflow 1.png)
 
-To process SID data you want to download your data from your data host to the local raw data directory.
+To process SID data you want to download your data from your data host to your local raw data directory
 
-    $ cd <Your SID Workspace>
+    $ cd <SID SIGNAL PROCESSING HOME>
     $ Scripts/sid_synchronize.sh -s <SITE> -h <HOST> -u <USER>
  
-Create anaytical and baseline data for all raw data files not yet processed.
+Create anaytical and baseline data for all raw data files not yet processed
 
     $ Scripts/sid_process_data.sh
     

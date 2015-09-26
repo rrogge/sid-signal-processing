@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if [ -z "$SID_HOME" ]; then
-  SID_HOME="$HOME/Workspaces/SID Processing"
+if [ -z "$SID_SIGNAL_PROCESSING_HOME" ]; then
+  SID_SIGNAL_PROCESSING_HOME=`pwd`
 fi
-cd "$SID_HOME"
+cd $SID_SIGNAL_PROCESSING_HOME
 
-RAW_DATA_DIR="$SID_HOME/Raw Data/"
+RAW_DATA_DIR="$SID_SIGNAL_PROCESSING_HOME/Raw Data/"
 REMOTE_DATA_DIR="supersid/data/"
 
 function usage()

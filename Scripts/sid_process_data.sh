@@ -1,16 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set +x
-
-if [ -z "$SID_HOME" ]; then
-  SID_HOME="$HOME/Workspaces/SID Processing"
+if [ -z "$SID_SIGNAL_PROCESSING_HOME" ]; then
+  SID_SIGNAL_PROCESSING_HOME=`pwd`
 fi
-cd "$SID_HOME"
+cd $SID_SIGNAL_PROCESSING_HOME
 
-ANALYTICAL_DATA_DIR="$SID_HOME/Analytical Data/"
-BASELINE_DATA_DIR="$SID_HOME/Baseline Data/"
-OUTPUT_DATA_DIR="$SID_HOME/Output Data/"
-RAW_DATA_DIR="$SID_HOME/Raw Data/"
+ANALYTICAL_DATA_DIR="$SID_SIGNAL_PROCESSING_HOME/Analytical Data/"
+BASELINE_DATA_DIR="$SID_SIGNAL_PROCESSING_HOME/Baseline Data/"
+OUTPUT_DATA_DIR="$SID_SIGNAL_PROCESSING_HOME/Output Data/"
+RAW_DATA_DIR="$SID_SIGNAL_PROCESSING_HOME/Raw Data/"
 
 function usage()
 {

@@ -6,7 +6,7 @@ fi
 cd "$SID_SIGNAL_PROCESSING_HOME"
 
 RAW_DATA_DIR="$SID_SIGNAL_PROCESSING_HOME/Raw Data/"
-REMOTE_DATA_DIR="supersid/data/"
+REMOTE_DATA_DIR="Data/"
 
 function usage()
 {

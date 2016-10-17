@@ -23,10 +23,10 @@ Carefully inspection of SID plots gives a list of SID signals. Once a month I pe
 1. Prepare AAVSO report
 1. Create AAVSO report
 
-e.g. for August 2016 the command sequence 
+e.g. the command sequence 
 
     $ cd Solar Activity
-    $ ../Scripts/sid_prepare_aavos_report.py -i SID\ Log-Table.csv -m 08 -y 2016 > A143.dat
+    $ ../Scripts/sid_prepare_aavso_report.py -i SID\ Log-Table.csv -m <MONTH> -y <YEAR> > A143.dat
     $ ../Scripts/sid_create_aavso_report.py A143.dat
     
 results in one file per transmitter ready to send to AAVSO.

@@ -9,9 +9,8 @@ source("R/grep_lines.R")
 parse_sid_header <- function(file.name) {
   header <- readLines(input.file.name, n=20)
   date <- as.Date((strsplit(grep_lines("UTC_StartTime", header), ' = ')[[1]][2]))
-  interval <- as.integer(strsplit(grep_lines("SampleRate", header), ' = ')[[1]][2])
   station <- strsplit(strsplit(grep_lines("StationID", header),' = ')[[1]][2],',')[[1]]
-  list(date=date, interval=interval, station=station)
+  list(date=date, station=station)
 }
 
 # Set working directory.
@@ -71,17 +70,20 @@ for (file.name in files) {
   # Parse legacy data file header.
   header <- parse_sid_header(input.file.name)
   date <- header$date
-  interval <- header$interval
   station <- sub("^DHO38$", "DHO", header$station)
   
   # Read legacy data from file.
-  legacy.data <- read.csv(input.file.name, header=FALSE, comment.char="#", sep=",", col.names=c("time","signal"), as.is=TRUE)
+  legacy.data <- read.csv(input.file.name, header=FALSE, comment.char="#", sep=",", col.names=c("time","signal"), as.is=TRUE, strip.white=T)
 
   # Transform legacy data into analytical data.
   analytical.data <- legacy.data %>%
     
     # Convert data.
-    mutate(time=as.POSIXct(time, "GMT")) %>%
+    mutate(time=as.POSIXct(strptime(time,format="%Y-%m-%d %H:%M:%S"),"GMT")) %>%
+    filter(!is.na(time)) %>%
+    
+    mutate(signal=as.numeric(signal)) %>%
+    filter(!is.na(signal)) %>%
     
     # Average signal over 30 seconds.
     mutate(hour=as.POSIXlt(time)[["hour"]]) %>%

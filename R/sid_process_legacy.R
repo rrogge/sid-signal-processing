@@ -6,12 +6,12 @@ library(R.utils)
 
 source("R/grep_lines.R")
 
-parse.sid.header <- function(file.name) {
+parse_sid_header <- function(file.name) {
   header <- readLines(input.file.name, n=20)
   date <- as.Date((strsplit(grep_lines("UTC_StartTime", header), ' = ')[[1]][2]))
-  interval <- as.integer(strsplit(grep_lines("LogInterval", header), ' = ')[[1]][2])
-  stations <- strsplit(strsplit(grep_lines("Stations", header),' = ')[[1]][2],',')[[1]]
-  list(date=date, interval=interval, stations=stations)
+  interval <- as.integer(strsplit(grep_lines("SampleRate", header), ' = ')[[1]][2])
+  station <- strsplit(strsplit(grep_lines("StationID", header),' = ')[[1]][2],',')[[1]]
+  list(date=date, interval=interval, station=station)
 }
 
 # Set working directory.
@@ -22,13 +22,13 @@ setwd(sid.signal.processing.home)
 plot.analytical.data.flag = TRUE
 
 # Set flag to TRUE when to process only one legacy data file.
-process.one.legacy.data.file.only.flag = TRUE
+process.one.legacy.data.file.only.flag = FALSE
 
 # Default directories for analytical, baseline, and legacy data files.
 analytical.data.dir <- "Analytical Data/"
 baseline.data.dir <- "Baseline Data/"
 output.data.dir <- "Output Data/"
-legacy.data.dir <- "legacy Data/"
+legacy.data.dir <- "Legacy Data/"
 
 # Parse command line arguemnts.
 args <- commandArgs(asValue=TRUE)
@@ -72,33 +72,34 @@ for (file.name in files) {
   header <- parse_sid_header(input.file.name)
   date <- header$date
   interval <- header$interval
-  stations <- sub("^DHO38$", "DHO", header$stations)
+  station <- sub("^DHO38$", "DHO", header$station)
   
   # Read legacy data from file.
-  legacy.data <- read.csv(input.file.name, header=FALSE, comment.char="#", col.names=stations, as.is=TRUE, na.string="0.000000000000000")
+  legacy.data <- read.csv(input.file.name, header=FALSE, comment.char="#", sep=",", col.names=c("time","signal"), as.is=TRUE)
 
   # Transform legacy data into analytical data.
   analytical.data <- legacy.data %>%
     
-    # Add time.
-    mutate(time=seq(as.POSIXct(sprintf("%s 00:00:00",date), "GMT"), as.POSIXct(sprintf("%s 23:59:55",date), "GMT"), interval)) %>%
-  
-    # Reorganize data using key (station), and value (signal).
-    gather(station, signal, one_of(stations)) %>%
+    # Convert data.
+    mutate(time=as.POSIXct(time, "GMT")) %>%
     
     # Average signal over 30 seconds.
     mutate(hour=as.POSIXlt(time)[["hour"]]) %>%
     mutate(minute=as.POSIXlt(time)[["min"]]) %>%
     mutate(second=ifelse(as.POSIXlt(time)[["sec"]] < 30, 15, 45)) %>%
-    group_by(station, hour, minute, second) %>%
+    group_by(hour, minute, second) %>%
     summarize(time=mean(time, na.rm=TRUE), signal=median(signal, na.rm=TRUE))  %>%
     
     # Drop helper columns.
     ungroup() %>%
+    
+    # Add column.
+    mutate(station=station) %>%
+    
     select(time, station, signal)
     
   # Write analytical data to file.
-  #write.csv(analytical.data, analytical.data.file.name, row.names=FALSE)
+  write.csv(analytical.data, analytical.data.file.name, row.names=FALSE)
 
   # Plot analytical data.
   if (plot.analytical.data.flag) {
@@ -118,9 +119,9 @@ for (file.name in files) {
       coord_cartesian(xlim=c(t0, t1))
     
     # Write plot to file.
-    #png(plot.file.name, 2048, 1536)
-    #print(p)
-    #dev.off()
+    png(plot.file.name, 2048, 1536)
+    print(p)
+    dev.off()
     
     # Plot to display.
     print(p)
@@ -141,7 +142,7 @@ for (file.name in files) {
     select(time, station, signal,weight)
     
   # Write baseline data.
-  #write.csv(baseline.data, baseline.data.file.name, row.names=FALSE)
+  write.csv(baseline.data, baseline.data.file.name, row.names=FALSE)
   
   # Print feedback.
   print(sprintf("%s processed", file.name))

@@ -4,10 +4,10 @@
 
 ![](Images/SID Workflow 1.png)
 
-To process SID data you want to download your data from your data host to your local raw data directory
+To process SID data for my site (LS22) I first download it from Raspberry Pi data host (sidpi) to my local raw data directory
 
-    $ cd <SID SIGNAL PROCESSING HOME>
-    $ Scripts/sid_synchronize.sh -s <SITE> -h <HOST> -u <USER>
+    $ cd ~/Workspace/sid-signal-processing
+    $ Scripts/sid_synchronize.sh -s LS22 -h sidpi -u sid
  
 Create anaytical and baseline data for all raw data files not yet processed
 
@@ -17,17 +17,16 @@ Create anaytical and baseline data for all raw data files not yet processed
 
 ![](Images/SID Workflow 2.png)
 
-Carefully inspection of SID plots gives a list of SID signals. Once a month I perform a simple workflow to create a SID report for AAVSO from the SID signal data stored in a Numbers spreadsheet:
+Inspection of SID plots gives me a list of SID signals I store in a spreadsheet. Once a month I perform a simple workflow to create a SID report for AAVSO from the SID signal data stored in this spreadsheet:
 
-1. Export spreadsheet as CSV 
+1. Export spreadsheet as CSV to **Solar Activity** directory
 1. Prepare AAVSO report
 1. Create AAVSO report
 
-e.g. the command sequence 
+e.g. for August 2016 the command sequence 
 
-    $ cd Solar Activity
-    $ ../Scripts/sid_prepare_aavso_report.py -i SID\ Log-Table.csv -m <MONTH> -y <YEAR> > A143.dat
-    $ ../Scripts/sid_create_aavso_report.py A143.dat
+    $ Scripts/sid_prepare_aavso_report.py -i Solar\ Activity/SID\ Log-Table.csv -m 8 -y 2016 > A143.dat
+    $ Scripts/sid_create_aavso_report.py A143.dat
     
 results in one file per transmitter ready to send to AAVSO.
 
@@ -42,8 +41,9 @@ results in one file per transmitter ready to send to AAVSO.
     + **station** Letter code of the VLF transmitter.
     + **signal** Signal strength.
     + **weight** 1
-- **Code** R code.
+- **Legacy Data**  Directory for legacy data files, one file per day and transmitter. File names are of format "SITE_TRANSMITTER_YEAR-MONTH-DAY.csv". 
 - **Output Data** Directory of plot files. File names are of format "SITE_YEAR-MONTH-DAY.png".
+- **R** Directory for R code.
 - **Raw Data**  Directory for raw data files, one file per day. File names are of format "SITE_YEAR-MONTH-DAY.csv". Columns are signal strengths of VLF transmitter as defined in header rows.
 - **Scripts** Directory for shell scripts.
 - **Solar Activity** Exported spreadsheet data.

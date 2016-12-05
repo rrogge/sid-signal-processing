@@ -47,7 +47,11 @@ def main(observer, filename, month, year):
         print("STATION %s" % transmitter)
         for j in range(len(transmitters)):
             if transmitter == transmitters[j]:
-                print("%s %s%s%s %s%s%s %s%s%s %s" % (dates[j][2], begin_times[j][0], begin_times[j][1], begin_flags[j], maximum_times[j][0], maximum_times[j][1], maximum_flags[j], end_times[j][0], end_times[j][1], end_flags[j], definitions[j]))
+                print("%s %02d%02d%s %02d%02d%s %02d%02d%s %s" % (dates[j][2],
+                    int(begin_times[j][0]), int(begin_times[j][1]), begin_flags[j],
+                    int(maximum_times[j][0]), int(maximum_times[j][1]), maximum_flags[j],
+                    int(end_times[j][0]), int(end_times[j][1]), end_flags[j],
+                    definitions[j]))
         print("ENDGROUP")
         print("")
 

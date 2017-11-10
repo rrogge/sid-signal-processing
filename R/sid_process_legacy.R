@@ -1,3 +1,5 @@
+Sys.setenv(TZ="GMT")
+
 library(dplyr)
 library(ggplot2)
 library(scales)

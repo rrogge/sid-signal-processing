@@ -1,3 +1,5 @@
+Sys.setenv(TZ="GMT")
+
 #library(data.table)
 library(ggplot2)
 library(dplyr)

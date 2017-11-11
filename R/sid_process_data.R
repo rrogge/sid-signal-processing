@@ -1,14 +1,24 @@
+Sys.setenv(TZ="GMT")
+
 library(dplyr)
 library(ggplot2)
 library(scales)
 library(tidyr)
 library(R.utils)
 
+source("R/grep_lines.R")
+
+parse_sid_header <- function(file.name) {
+  header <- readLines(input.file.name, n=20)
+  date <- as.Date((strsplit(grep_lines("UTC_StartTime", header), ' = ')[[1]][2]))
+  interval <- as.integer(strsplit(grep_lines("LogInterval", header), ' = ')[[1]][2])
+  stations <- strsplit(strsplit(grep_lines("Stations", header),' = ')[[1]][2],',')[[1]]
+  list(date=date, interval=interval, stations=stations)
+}
+
 # Set working directory.
 sid.signal.processing.home <- Sys.getenv("SID_SIGNAL_PROCESSING_HOME", ".")
 setwd(sid.signal.processing.home)
-
-source("Code/parse.sid.header.R")
 
 # Set flag to TRUE when to plot analytical data.
 plot.analytical.data.flag = TRUE
@@ -60,8 +70,8 @@ for (file.name in files) {
   # Compose plot file name.
   plot.file.name <- paste(output.data.dir, sub("\\.csv", "\\.png", file.name), sep="/")
   
-  # Parse raw data fiile header.
-  header <- parse.sid.header(input.file.name)
+  # Parse raw data file header.
+  header <- parse_sid_header(input.file.name)
   date <- header$date
   interval <- header$interval
   stations <- sub("^DHO38$", "DHO", header$stations)

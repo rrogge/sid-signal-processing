@@ -34,13 +34,13 @@ three-letter station code and the frequency in KHz.
 The event data then follows consisting of the day of the event, start time,
 max time, end time and definition, in that order. These values must be
 separated by at least one space.
-	
+
 	Day of event may be 1 or 2 digits and must be between 1 and 31.
-	
+
 	Start, Max and End time must be 4 digits in the range 0000 to 2359.
 	The times may also have an additional character appended: E, U or
 	(D or U) respectively.
-	
+
 	Definition must be one digit in the range 1 to 5.
 
 The entries do not need to be in order by date.
@@ -59,14 +59,14 @@ MONTH 3
 
 STATION NPM 21.4
 13   0300    0310U   0400        3
- 01   1234E   1250    1255        5		Comment text OK here
+01   1234E   1250    1255        5		Comment text OK here
 14   0240    0250    0310D       4
 08   0226    0230    0315        5
 ENDGROUP
 
 STATION NAA 24.8
 13   0300    0400U   0410        3
- 01   1234E   1350    1355        5
+01   1234E   1350    1355        5
 14   0340    0350    0410D       4
 09   0226    0230    0315        5
 ENDGROUP
@@ -129,12 +129,12 @@ class Report:
 		self.patterns = (observerPat, stationPat, yearPat, monthPat, dataPat, endgroupPat)
 		self.hmPat = re.compile('(\d\d) *(\d\d)')
 		self.state = 0
-	
+
 	def validateEntry(self, event, line):
 		date = int(event[0])
 		if (date < 1) or (date > 31):
 			raise ReportException, 'Invalid date in line "%s" ' % (line,)
-		
+
 		t = []
 		for k in range(1, 4):
 			h, m = self.hmPat.findall(event[k])[0]
@@ -144,15 +144,15 @@ class Report:
 			if m > 59:
 				raise ReportException, 'Invalid minute in line "%s" ' % (line,)
 			t.append(h*60 + m)	# time in minutes
-		
+
 		# t contains startTime, maxTime, endTime
 		if t[0] > t[1] or t[1] > t[2]:
 			raise ReportException, 'Invalid time values in line "%s" ' % (line,)
-		
+
 		definition = int(event[4])
 		if definition not in (1, 2,3,4,5):
 			raise ReportException, 'Invalid definition in line "%s" ' % (line,)
-	
+
 	def processGroup(self):
 		events = []
 		N = len(self.patterns)
@@ -214,7 +214,7 @@ class Report:
 			except StopIteration:
 				return events
 		raise StopIteration
-	
+
 	def computeImportance(self, startTime, endTime):
 		g = re.findall(r'(\d\d)(\d\d)', startTime)[0]
 		h = g[0]
@@ -232,7 +232,7 @@ class Report:
 			if duration < r:
 				break
 		return durCode
-	
+
 	def sortEvents(self, events):
 		# Sort events by date and start time
 		def eventCompare(e1, e2):
@@ -250,12 +250,12 @@ class Report:
 				return 1
 			else:
 				return 0
-		
+
 		events.sort(eventCompare)
 		return events
-	
+
 	def generateReport(self, events, filename):
-		
+
 		def insertText(s, loc, text):
 			for k in range(len(text)):
 				s[loc + k - 1] = text[k]
@@ -267,7 +267,7 @@ class Report:
 		outfile.write(header)
 		print
 		print header[:-1]
-		
+
 		line = [' ' for k in range(80)]
 		L = 'Observer: ' + self.observer + ' '*30
 		insertText(line, 1, L)
@@ -276,7 +276,7 @@ class Report:
 		line1 =string.join(line, '').strip() + '\n\n'
 		outfile.write(line1)
 		print line1[:-1]
-		
+
 		stationCode = self.station[1:] + str(int(round(float(self.frequency))))
 		date = '%02d%02d' % (int(self.year), int(self.month))
 		for s in events:

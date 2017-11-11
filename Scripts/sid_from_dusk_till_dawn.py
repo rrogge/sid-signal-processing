@@ -34,14 +34,14 @@ if __name__ == "__main__":
 
     for opt, arg in opts:
         if opt in ('-a', '--altitude'):
-            altitude = arg
+            altitude = float(arg)
         elif opt in ('-b', '--latitude'):
-            latitude = arg
+            latitude = float(arg)
         elif opt in ('-h', '--help'):
             usage(argv[0])
             exit()
         elif opt in ('-l', '--longitude'):
-            longitude = arg
+            longitude = float(arg)
         elif opt in ('-n', '--name'):
             name = arg
         elif opt in ('-m', '--month'):

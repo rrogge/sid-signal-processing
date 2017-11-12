@@ -14,9 +14,14 @@ def refresh():
     download_IERS_A()
 
 def usage(program):
-    print("%s [-n NAME] [-l LONGITUDE] [-b LATITUDE] [-m MONTH] [-y YEAR] [-a ALTITUDE]" % program)
-    print("\n\nRefresh IEARS Bulletin A:\n%s -r" % program)
-    print("\n\nThis message:\n%s -h" % program)
+    print("Sunrise and sunset of a month:")
+    print("%s -m MONTH -y YEAR [-n NAME] [-l LONGITUDE] [-b LATITUDE] [-a ALTITUDE]\n" % program)
+
+    print("Refresh IEARS Bulletin A:")
+    print("%s -r\n" % program)
+
+    print("This message:")
+    print("%s -h" % program)
 
 if __name__ == "__main__":
     try:
@@ -26,11 +31,11 @@ if __name__ == "__main__":
         exit()
 
     altitude  = 200.0
-    month = 1
+    month = None
     latitude  = 0
     longitude = 0
     name = "N/A"
-    year = 1970
+    year = None
 
     for opt, arg in opts:
         if opt in ('-a', '--altitude'):
@@ -51,6 +56,10 @@ if __name__ == "__main__":
             exit()
         elif opt in ('-y', '--year'):
             year = int(arg)
+
+    if month is None or year is None:
+        usage(argv[0])
+        exit()
 
     location = EarthLocation.from_geodetic(longitude*u.deg, latitude*u.deg, altitude*u.km)
     site =  Observer(location=location, name=name, timezone="GMT")

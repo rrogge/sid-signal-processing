@@ -71,8 +71,8 @@ if __name__ == "__main__":
     dt = TimeDelta(24 * 60 * 60, format='sec')
 
     print "# Name: {}".format(site.name)
-    print "# Longitude: {}".format(site.location.longitude)
-    print "# Latitude: {}".format(site.location.latitude)
+    print "# Longitude: {}".format(site.location.lon)
+    print "# Latitude: {}".format(site.location.lat)
     print "# Altitude: {}".format(site.location.height)
     print "location, date, event"
 

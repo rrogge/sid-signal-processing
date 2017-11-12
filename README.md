@@ -56,6 +56,16 @@ e.g. for August 2016 the command sequence
     
 results in one file per transmitter ready to send to AAVSO.
 
+## Sunrise and Sunset
+
+To undestand the diurnal pattern of the signal strength of the VLF transmitter it is handy to know the time of sunrise and sunset 200 km above ground and halfway between the SID monitor and the VLF transmitter. 
+
+To get the sunrises and sunsets for all of my monitored VLF transmitters for November 2017 I run the commands:
+
+    $ Script/sid_from_dusk_till_dawn.py -n LS22DHO -l 8.444759 -b 50.37837 -m 11 -y 2017 
+    $ Script/sid_from_dusk_till_dawn.py -n LS22GQD -l 3.614605 -b 51.35747 -m 11 -y 2017
+    $ Script/sid_from_dusk_till_dawn.py -n LS22ICV -l 9.473752 -b 44.29854 -m 11 -y 2017
+
 ## Directory Structure
   
 - **Analytical Data** Directory for analytical data files process from raw data, one file per day. File names are of format "SITE_YEAR-MONTH-DAY.csv". Columns are
@@ -71,5 +81,5 @@ results in one file per transmitter ready to send to AAVSO.
 - **Output Data** Directory of plot files. File names are of format "SITE_YEAR-MONTH-DAY.png".
 - **R** Directory for R code.
 - **Raw Data**  Directory for raw data files, one file per day. File names are of format "SITE_YEAR-MONTH-DAY.csv". Columns are signal strengths of VLF transmitter as defined in header rows.
-- **Scripts** Directory for shell scripts.
+- **Scripts** Directory for shell/python/R scripts.
 - **Solar Activity** Exported spreadsheet data.

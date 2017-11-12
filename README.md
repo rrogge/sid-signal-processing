@@ -58,7 +58,11 @@ results in one file per transmitter ready to send to AAVSO.
 
 ## Sunrise and Sunset
 
-To undestand the diurnal pattern of the signal strength of the VLF transmitter it is handy to know the time of sunrise and sunset 200 km above ground and halfway between the SID monitor and the VLF transmitter. 
+To understand the diurnal pattern of the signal strength of the VLF transmitter it is handy to know the time of sunrise and sunset 200 km above ground and halfway between the SID monitor and the VLF transmitter. 
+
+To calculate the midpoints for the given SID monitor / VLF transmitter combinations I use a R script:
+
+    $ R/sid_reflection_point.R
 
 To get the sunrises and sunsets for all of my monitored VLF transmitters for November 2017 I run the commands:
 
@@ -81,5 +85,5 @@ To get the sunrises and sunsets for all of my monitored VLF transmitters for Nov
 - **Output Data** Directory of plot files. File names are of format "SITE_YEAR-MONTH-DAY.png".
 - **R** Directory for R code.
 - **Raw Data**  Directory for raw data files, one file per day. File names are of format "SITE_YEAR-MONTH-DAY.csv". Columns are signal strengths of VLF transmitter as defined in header rows.
-- **Scripts** Directory for shell/python/R scripts.
+- **Scripts** Directory for shell/python scripts.
 - **Solar Activity** Exported spreadsheet data.

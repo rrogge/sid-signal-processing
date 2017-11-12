@@ -62,13 +62,13 @@ To understand the diurnal pattern of the signal strength of the VLF transmitter 
 
 To calculate the midpoints for the given SID monitor / VLF transmitter combinations I use a R script:
 
-    $ R/sid_reflection_point.R
+    $ R/sid_reflection_points.R
 
 To get the sunrises and sunsets for all of my monitored VLF transmitters for November 2017 I run the commands:
 
-    $ Script/sid_from_dusk_till_dawn.py -n LS22DHO -l 8.444759 -b 50.37837 -m 11 -y 2017 
-    $ Script/sid_from_dusk_till_dawn.py -n LS22GQD -l 3.614605 -b 51.35747 -m 11 -y 2017
-    $ Script/sid_from_dusk_till_dawn.py -n LS22ICV -l 9.473752 -b 44.29854 -m 11 -y 2017
+    $ Scripts/sid_from_dusk_till_dawn.py -n LS22DHO -l 8.444759 -b 50.37837 -m 11 -y 2017 
+    $ Scripts/sid_from_dusk_till_dawn.py -n LS22GQD -l 3.614605 -b 51.35747 -m 11 -y 2017
+    $ Scripts/sid_from_dusk_till_dawn.py -n LS22ICV -l 9.473752 -b 44.29854 -m 11 -y 2017
 
 ## Directory Structure
   

@@ -87,14 +87,14 @@ for (file.name in files) {
   
     # Reorganize data using key (station), and value (signal).
     gather(station, signal, one_of(stations)) %>%
-    
+     
     # Average signal over 30 seconds.
-    mutate(hour=as.POSIXlt(time)[["hour"]]) %>%
-    mutate(minute=as.POSIXlt(time)[["min"]]) %>%
-    mutate(second=ifelse(as.POSIXlt(time)[["sec"]] < 30, 15, 45)) %>%
+    mutate(hour=as.POSIXlt(time)[,"hour"]) %>%
+    mutate(minute=as.POSIXlt(time)[,"min"]) %>%
+    mutate(second=ifelse(as.POSIXlt(time)[,"sec"] < 30, 15, 45)) %>%
     group_by(station, hour, minute, second) %>%
     summarize(time=mean(time, na.rm=TRUE), signal=median(signal, na.rm=TRUE))  %>%
-    
+     
     # Drop helper columns.
     ungroup() %>%
     select(time, station, signal)
@@ -132,8 +132,8 @@ for (file.name in files) {
   baseline.data <- analytical.data %>%
     
     # Filter analytical data points from 6:00 to 18:00 ever 30 minutes.
-    mutate(hour=as.POSIXlt(time)[["hour"]]) %>%
-    mutate(minute=as.POSIXlt(time)[["min"]]) %>%
+    mutate(hour=as.POSIXlt(time)[,"hour"]) %>%
+    mutate(minute=as.POSIXlt(time)[,"min"]) %>%
     filter(hour %in% seq(6,18) & (minute %in% c(0,30))) %>%
     group_by(station, hour, minute) %>%
     summarize(time=mean(time), signal=mean(signal), weight=1) %>%
